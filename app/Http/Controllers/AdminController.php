@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use App\Models\Feedback;
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Constants\GlobalConstants;
 
 class AdminController extends Controller
 {
@@ -11,7 +16,7 @@ class AdminController extends Controller
     protected $guard = 'admin';
 
     public function index(){
-        return view('administrators.home');
+        // return view('administrators.dashboard');
     }
 
     public function showLoginForm()
@@ -19,6 +24,45 @@ class AdminController extends Controller
         return view('administrators.login');
     }
 
+    public function feedback()
+    {
+       
+        /* $feedback_opened = Feedback::Where('status', "Opened")->get();
+        $feedback_closed = Feedback::Where('status', "Closed")->get();
+        return view('administrators.feedback')->with(compact('feedback_opened','feedback_closed')); */
+        return view('administrators.home');
+    }
+
+    public function test()
+    {
+        return view('administrators.test');
+    }
+
+    public function article()
+    {
+        return view('administrators.article.index');
+    }
+
+    public function testnewspage()
+    {
+        return view('administrators.news.news_page');
+    }
+
+    
+    public function settingpage()
+    {
+        return view('administrators.setting');
+    }
+
+    public function newspage(Request $request)
+    {
+        return view('administrators.news.index');
+    }
+
+    public function banners(Request $request)
+    {
+        return view('administrators.banners.index');
+    }
     /** Login de administrador*/
     public function authenticate(Request $request)
     {
@@ -48,6 +92,7 @@ class AdminController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/admin/login');
     }
+
 }

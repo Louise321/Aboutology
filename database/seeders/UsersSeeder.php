@@ -23,15 +23,15 @@ class UsersSeeder extends Seeder
         ]); */
 
         DB::table('users')->insert([
-            'name'      => 'Juan',
-            'email'     => 'machuca@gmail.com',
-            'password'  => Hash::make('Machuca12'),
+            'name'      => 'User',
+            'email'     => 'user@gmail.com',
+            'password'  => Hash::make('test123'),
         ]);
 
         DB::table('admin')->insert([
             'name'      => 'Admin',
             'email'     => 'admin@gmail.com',
-            'password'  => Hash::make('Machuca12'),
+            'password'  => Hash::make('test123'),
         ]);
     }
 }

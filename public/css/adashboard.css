@@ -1,0 +1,21 @@
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.btn {
+  background-color: #ccccff;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+  background-color: #b3b3ff;
+}

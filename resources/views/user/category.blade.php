@@ -1,13 +1,4 @@
-{{--
-<link href="css/article/bootstrap.min.css" rel="stylesheet"> --}}
-{{--
-<link href="css/article/font-awesome.min.css" rel="stylesheet"> --}}
-{{--
-<link href="css/article/lightbox.css" rel="stylesheet">
-<link href="css/article/animate.min.css" rel="stylesheet"> --}}
 <link href="/css/article/test.css" rel="stylesheet">
-{{--
-<link href="css/article/responsive.css" rel="stylesheet"> --}}
 <link rel="shortcut icon" href="images/ico/favicon.ico">
 
 <x-app-layout>
@@ -40,16 +31,16 @@
 
                                 <li><a href="{{ route('article') }}">All<span class="pull-right"></span></a></li>
 
-                                @foreach ($testing123 as $test)
+                               {{--  @foreach ($testing123 as $test) --}}
                                     @foreach ($cat as $category)
 
-                                        <li class="{{ $category->category_id == $test->category_id ? 'active' : '' }}">
+                                        <li class="{{ $category->category_id == $cat_id ? 'active' : '' }}">
                                             <a
                                                 href="{{ route('article-cat', $category->category_id) }}">{{ $category->category->name }}</a>
                                         </li>
 
                                     @endforeach
-                                @endforeach
+                                {{-- @endforeach --}}
 
                                 {{-- <li class="active"><a href="#">Dolor sit amet<span
                                             class="pull-right">(8)</span></a></li>
@@ -64,12 +55,12 @@
                         </div>
 
                         <div class="sidebar2-item  recent">
-                            <h3>Recent Posts</h3>
+                            <h3>Popular Posts</h3>
 
                             @foreach ($data as $latest)
                                 <div class="media">
                                     <div class="pull-left">
-                                        <a href="#"><img class="img-recent" src="img/cat.png" alt=""></a>
+                                        <a href="#"><img class="img-recent" src="{{ asset('uploads/image/' . $latest->file_path) }}" alt=""></a>
                                     </div>
                                     <div class="media-body">
                                         <h4><a href="#">{{ $latest->title }}</a></h4>
@@ -77,25 +68,6 @@
                                     </div>
                                 </div>
                             @endforeach
-
-                            {{-- <div class="media">
-                                <div class="pull-left">
-                                    <a href="#"><img class="img-recent" src="img/cat.png" alt=""></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on 07 March 2014</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <a href="#"><img class="img-recent" src="img/cat.png" alt=""></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on 07 March 2014</p>
-                                </div>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -109,54 +81,27 @@
                                     <div class="single-blog two-column">
                                         <div class="post-thumb">
                                             <a href="{{ route('article.detail', $articled->id) }}"><img
-                                                    src="/img/01.jpg" class="img-responsive" alt=""></a>
+                                                    src="{{ asset('uploads/image/' . $articled->file_path) }}" class="img-responsive" alt="" style="height: 250px; width:100%;"></a>
                                             <div class="post-overlay">
                                             </div>
                                         </div>
 
                                         <div class="post-content overflow">
-                                            <h2 class="post-title bold"><a
-                                                    href="{{ route('article.detail', $articled->id) }}">{{ $articled->title }}</a>
+                                            <h2 class="post-title bold">
+                                                <a href="{{ route('article.detail', $articled->id) }}">{{ $articled->title }}</a>
                                             </h2>
-                                            <h3 class="articledate">{{ date_format($articled->created_at, 'jS M Y') }}
-                                            </h3>
-                                            <p class="articledesc">{{ $articled->description }}</p>
-                                            <a href="#" class="read-more">View More</a>
+
+                                            <h3 class="articledate">{{ date_format($articled->created_at, 'jS M Y') }}</h3>
+
+                                            <div class="articledesc">
+                                                <p>{!! html_entity_decode($articled->description) !!}</p>
+                                            </div>
+
+                                            <a href="{{ route('article.detail', $articled->id) }}" class="read-more">View More</a>
+
                                             <div class="post-bottom overflow">
                                                 <ul class="nav nav-justified post-nav">
-                                                    <li><a href="#"><i class="fas fa-eye"></i>58 Views</a></li>
-                                                    <li><a href="#"><i
-                                                                class="fas fa-thumbs-up"></i>{{ $articled->likes ?: 0 }}</a>
-                                                    </li>
-                                                    <li><a href="#"><i
-                                                                class="fas fa-thumbs-down"></i>{{ $articled->dislikes ?: 0 }}</a>
-                                                    </li>
-
-                                                    {{-- <div
-                                                        class="btn-group btn-group-sm" style="margin-left: 70">
-                                                        <button class="align-middle" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-h"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item align-middle"
-                                                                href="{{ route('articles.edit', $article->id) }}"><i
-                                                                    class="far fa-edit"></i> Edit</a>
-
-                                                            <form action="{{ route('articles.destroy', $article->id) }}"
-                                                                method="POST">
-
-                                                                @csrf
-                                                                @method('DELETE')
-
-                                                                <a class="dropdown-item align-middle"><i
-                                                                        class="fas fa-trash-alt"
-                                                                        style="margin-right: 4"></i> Delete</a>
-
-                                                            </form>
-
-                                                        </div>
-                                                    </div> --}}
+                                                    <li><i class="fas fa-eye"></i> {{ $articled->views }}</li>
 
                                                 </ul>
                                             </div>
@@ -168,7 +113,7 @@
                             @endforeach
                         @endforeach
 
-                        {!! $article->links('pagination::bootstrap-4') !!}
+                        {{-- {!! $articles->links('pagination::bootstrap-4') !!} --}}
 
                     </div>
 
@@ -180,9 +125,3 @@
     <!--/#blog-->
 
 </x-app-layout>
-
-<script type="text/javascript" src="js/article/jquery.js"></script>
-<script type="text/javascript" src="js/article/bootstrap.min.js"></script>
-<script type="text/javascript" src="js/article/lightbox.min.js"></script>
-<script type="text/javascript" src="js/article/wow.min.js"></script>
-<script type="text/javascript" src="js/article/main.js"></script>

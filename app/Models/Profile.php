@@ -15,5 +15,6 @@ class Profile extends Model
     use LogsActivity;
 
     protected static $logAttributes = ['name', 'text'];
+    protected $fillable = ['profilepic_path'];
 
 }

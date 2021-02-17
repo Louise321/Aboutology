@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use App\Utilities\FilterBuilder;
+use App\Constants\GlobalConstants;
 
 class Article extends Model
 {
@@ -45,15 +47,5 @@ class Article extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
-
-    public function likes()
-    {
-        return $this->hasMany(Like::class)->where('liked', true);
-        // return $this->belongsToMany('App\User', 'likes');
-    }
-
-    public function dislike()
-    {
-        return $this->hasMany(Like::class)->where('liked', false);
-    }
+    
 }

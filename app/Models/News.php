@@ -40,7 +40,7 @@ class News extends Model
         if($search_keyword && !empty($search_keyword)) {
             $news->where(function($q) use ($search_keyword) {
                 $q->where('news.title', 'like', "%{$search_keyword}%");
-            });
+            })->orderBy('id','DESC');
         }
 
         // Filter By Country
@@ -48,7 +48,7 @@ class News extends Model
             $news = $news->where('news.id', $category);
         }
 
-        return $news->paginate(PER_PAGE_LIMIT);
+        return $news->orderBy('id','DESC')->paginate(10);
 
     }
   

@@ -9,7 +9,6 @@
                 {{-- <a href="/"> --}}
                     <x-application-logo/>
                 {{-- </a> --}}
-                
             </x-slot>
 
             <!-- Session Status -->

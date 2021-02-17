@@ -82,4 +82,25 @@ class UserPreferenceController extends Controller
     {
         //
     }
+
+    public function updatePreferenceStatus(Request $request){
+      
+   
+           if($request->ajax()){
+               $data = $request->all();
+   
+               if($data['status']=="Active"){
+                   $status =0;
+               }else{
+                   $status = 1;
+               }
+               $userPref = UserPreference::find($data['banner_id']);
+               $userPref->subscription =  $status;
+               $userPref->save();
+   
+   
+               return response()->json(['success'=>'Status change successfully.','status'=>$status,'banner_id'=>$data['banner_id']]);
+   
+           } 
+}
 }

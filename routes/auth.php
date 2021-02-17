@@ -59,7 +59,27 @@ Route::get('/confirm-password', [ConfirmablePasswordController::class, 'show'])
 Route::post('/confirm-password', [ConfirmablePasswordController::class, 'store'])
                 ->middleware('auth');
 
+Route::get('/two-factor', [ConfirmablePasswordController::class, 'show'])
+                ->middleware('auth')
+                ->name('password.confirm');
+
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->middleware('auth')
                 ->name('logout');
+
+//Two Factor Testing
+
+Route::get('verify/resend', 'Auth\TwoFactorController@resend')->name('verify.resend');
+Route::resource('verify', 'Auth\TwoFactorController')->only(['index', 'store']);
+
+// Route::group([
+//     'prefix' => 'admin', 
+//     'as' => 'admin.', 
+//     'namespace' => 'Admin', 
+//     'middleware' => ['auth', 'twofactor']
+// ], function () {
+//     Route::resource('permissions', 'PermissionsController');
+//     Route::resource('roles', 'RolesController');
+//     Route::resource('users', 'UsersController');
+// });
 

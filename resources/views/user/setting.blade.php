@@ -28,14 +28,14 @@
             <main class="content">
                 <div class="container-fluid p-0">
 
-                    <h1 class="h3 mb-3">Settings</h1>
+                    <h1 style="padding-bottom:20px">Settings</h1>
 
                     <div class="row">
                         <div class="col-md-3 col-xl-2">
 
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Profile Settings</h5>
+                                    <h5 class="card-title mb-0" style="font-size:22px; padding-bottom:20px;">Profile Settings</h5>
                                 </div>
 
                                 <div class="list-group list-group-flush" role="tablist">
@@ -47,9 +47,9 @@
                                         href="#security" role="tab">
                                         Security
                                     </a>
-                                    <a class="list-group-item list-group-item-action" data-toggle="tab" 
+                                    {{-- <a class="list-group-item list-group-item-action" data-toggle="tab" 
                                         href="#notification" role="tab">
-                                        Notifications
+                                        Notifications --}}
                                     </a>
                                     <a class="list-group-item list-group-item-action" data-toggle="tab" 
                                         href="#preference" role="tab">
@@ -83,35 +83,68 @@
                                 <div class="tab-pane fade show active" id="account" role="tabpanel">
                                     <div class="card">
                                         <div class="card-header">
-
                                             <h5 class="card-title mb-0"><b>Public info</b></h5>
                                         </div>
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <br />
+                                        @endif
+
+                                        @if (Session::has('updated_profile'))
+                                            <div class="alert alert-success" role="alert">
+                                                {{ Session::get('updated_profile') }}
+                                            </div>
+                                        @endif
+
+
                                         <div class="card-body">
-                                            <form>
+                                            <form method="POST" action="{{ route('profiles.update', $profile->id) }}" enctype="multipart/form-data">
+
+                                                @csrf
+                                                @method('PATCH')
+
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         <div class="mb-3">
                                                             <label class="form-label"
                                                                 for="inputUsername">Username</label>
                                                             <input type="text" class="form-control" id="inputUsername"
-                                                                placeholder="Username">
+                                                                placeholder="Username" value="{{ $profile['fullname'] }}" name="name">
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label"
                                                                 for="inputUsername">Biography</label>
                                                             <textarea rows="2" class="form-control" id="inputBio"
-                                                                placeholder="Tell something about yourself"></textarea>
+                                                                placeholder="Tell something about yourself" name="desc">{{ $profile['short_desc'] }}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="inputDOB">Date of Birth</label>
+                                                            <input type="text" class="form-control" id="inputDOB"
+                                                                value="{{ $profile['date_of_birth'] }}"  name="dob">
+                                                        </div>
+                                                        <div class="mb-3" style="padding-bottom:20px;">
+                                                            <label class="form-label" for="inputAddress">Phone Number</label>
+                                                            <input type="text" class="form-control" id="inputPhone"
+                                                                placeholder="e.g. 011-12345678" value="{{ $profile['phone'] }}" name="phone">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4">
                                                         <div class="text-center">
-                                                            <img alt="Charles Hall" src="img/avatar.jpg"
+                                                            <img alt="" src="{{asset('uploads/profilePic/'.$profile->profilepic_path)}}"
                                                                 class="rounded-circle img-responsive mt-2" width="128"
                                                                 height="128" />
-                                                            <div class="mt-2">
+                                                            <input type="file" name="profilepic_path" value="{{ $profile->profilepic_path }}">
+                                                            {{-- <div class="mt-2">
                                                                 <span class="btn btn-primary"><i
-                                                                        class="fas fa-upload"></i> Upload</span>
-                                                            </div>
+                                                                      class="fas fa-upload"></i> Upload</span>
+                                                            </div> --}}
                                                             <small>For best results, use an image at least 128px by
                                                                 128px in .jpg format</small>
                                                         </div>
@@ -124,7 +157,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card">
+                                    {{-- <div class="card">
                                         <div class="card-header">
 
                                             <h5 class="card-title mb-0"><b>Private info</b></h5>
@@ -179,101 +212,65 @@
                                                 <button type="submit" class="btn btn-primary">Save changes</button>
                                             </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
 
                                 <!-- Security -->
                                 <div class="tab-pane fade" id="security" role="tabpanel">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title"><b>Two-Factor Authentication</b></h5>
-
-                                            <!-- <div class="mb-3">
-                                                    <label class="form-label" for="emailAuthentication">Email Authentication</label>
-                                                    <button type="button" class="btn btn-sm btn-one btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" id="emailAuthentication">
-                                                        <div class="handle"></div>
-                                                    </button>
-                                                </div> -->
-                                            
-                                            @if(! auth()->user()->two_factor_secret)
-                                            
-                                                You have not enable 2fa
-
-                                                <form method="POST" action="{{url('../user/two-factor-authentication')}}">
-                                                    @csrf
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="QRcodeAuthentication">QR Code Authentication</label>
-                                                        <button type="submit" class="btn btn-primary security-btn">
-                                                            Enable
-                                                        </button>
-                                                        <!-- <button type="button" class="btn btn-sm btn-one btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" id="QRcodeAuthentication">
-                                                            <div class="handle"></div>
-                                                        </button> -->
-                                                    </div>
-                                                </form>
-
-                                            @else
-
-                                                
-
-                                                <form method="POST" action="{{url('../user/two-factor-authentication')}}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="mb-3">
-                                                        <label class="form-label" for="QRcodeAuthentication"><b>QR Code Authentication</b></label>
-                                                        <button type="submit" class="btn btn-primary security-btn">
-                                                            Disable
-                                                        </button>
-                                                        <!-- <button type="button" class="btn btn-sm btn-one btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="on" id="QRcodeAuthentication">
-                                                            <div class="handle"></div>
-                                                        </button> -->
-                                                    </div>
-                                                </form>
-                                            
-                                            @endif    
-
-                                            @if(session('status') == 'two-factor-authentication-enabled')
-
-                                                <p> You have now enabled 2fa, 
-                                                    please scan the following QR code 
-                                                    into your phone authenticator application.
-                                                </p>
-                                                {!! auth()->user()->twoFactorQrCodeSvg() !!}
-
-                                                <br>
-
-                                                <p style="padding-top:20px;">Please store these recovery codes in a secure location.</p>
-
-                                                <br>
-
-                                                @foreach(json_decode(decrypt(auth()->user()->two_factor_recovery_codes, true)) as $code)
-                                                    {{ trim($code) }} <br>
-                                                @endforeach
-                                            @endif
-                                        </div>
-                                    </div>
-
 
                                     <div class="card">
 										<div class="card-body">
-                                            <h5 class="card-title"><b>Two-Factor Authentication</b></h5>
-                                            <form>
+                                            <h5 class="card-title"><b>Change Password</b></h5>
+
+                                            @if (Session::has('updated'))
+                                                <div class="alert alert-success" role="alert">
+                                                    {{ Session::get('updated') }}
+                                                </div>
+                                            @endif
+
+                                            @if (Session::has('message'))
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ Session::get('message') }}
+                                                </div>
+                                            @endif
+
+                                            @if (count($errors))
+                                                @foreach ($errors->all() as $error)
+                                                    <p class="alert alert-danger">{{$error}}</p>
+                                                @endforeach
+                                            @endif 
+
+                                            
+                                            <form action="{{ route('update-password.update', $users->id) }}" method="post">
+                                                @csrf
+                                                @method('PATCH')
+
+                                            
 												<div class="mb-3">
 													<label class="form-label" for="inputPasswordCurrent">Current password</label>
-													<input type="password" class="form-control" id="inputPasswordCurrent">
-													<small><a href="#">Forgot your password?</a></small>
+													<input type="password" class="form-control" id="inputPasswordCurrent" name="oldpassword">
+													<small>
+                                                        <p class="forgot-pass">    
+                                                            @if (Route::has('password.request'))
+                                                                <a href="{{ route('password.request') }}">
+                                                                    {{ __('Forgot your password?') }}
+                                                                </a>
+                                                            @endif
+                                                        </p>
+                                                    </small>
 												</div>
 												<div class="mb-3">
 													<label class="form-label" for="inputPasswordNew">New password</label>
-													<input type="password" class="form-control" id="inputPasswordNew">
+													<input type="password" class="form-control" id="inputPasswordNew" name="newpassword">
 												</div>
 												<div class="mb-3">
 													<label class="form-label" for="inputPasswordNew2">Verify password</label>
-													<input type="password" class="form-control" id="inputPasswordNew2">
+													<input type="password" class="form-control" id="inputPasswordNew2" name="password_confirmation">
 												</div>
 												<button type="submit" class="btn btn-primary">Save changes</button>
 											</form>
+                                            {{-- @endforeach --}}
 
 										</div>
 									</div>
@@ -283,7 +280,7 @@
 
 
                                 <!-- Notification -->
-                                <div class="tab-pane fade" id="notification" role="tabpanel">
+                                {{-- <div class="tab-pane fade" id="notification" role="tabpanel">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title"><b>Notification</b></h5>
@@ -304,7 +301,7 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 
 
                                 <!-- preference -->
@@ -312,19 +309,28 @@
                                 <div class="tab-pane fade" id="preference" role="tabpanel">
                                     <div class="card">
                                         <div class="card-body">
-                                            <h5 class="card-title"><b>Notification</b></h5>
+                                            <h5 class="card-title"><b>User Preference</b></h5>
+                                          <br/><br>
+                                            @foreach ($userPref as $item)
+                                                @if ($item->subscription == 1)
+                                                    <a class="updatePreferenceStatus" 
+                                                        href="javascript:void(0)"
+                                                        style="margin:10px 15px 10px 0" id="userPref-{{ $item->id }}"
+                                                        userPref-id="{{ $item->id }}"><i
+                                                        class="fas fa-check-square" aria-hidden="true"
+                                                        status="Active"></i></a>{{$item->name}} <br/>
+                                                @else
+                                                <a class="updatePreferenceStatus" 
+                                                        href="javascript:void(0)"
+                                                        style="margin:10px 15px 10px 0" id="userPref-{{ $item->id }}"
+                                                        userPref-id="{{ $item->id }}"><i
+                                                            class="far fa-square" aria-hidden="true"
+                                                            status="Inactive"></i></a>{{$item->name}} <br/>
 
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="c">Cat</label>
-                                                    <input type="checkbox" id="c">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label class="form-label" for="c">Cat</label>
-                                                    <input type="checkbox" id="c">
-                                                </div>
-                                                <button type="submit" class="btn btn-primary">Save changes</button>
-                                            </form>
+                                                @endif
+                                            @endforeach 
+                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -362,4 +368,34 @@
         }
       }, 15000);
     });
+</script>
+
+<script src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<script language="JavaScript" type="text/javascript">
+    $(document).on("click",".updatePreferenceStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var banner_id = parseInt($(this).attr("userPref-id"));
+        console.log("status",status,"banner_id",banner_id)
+$.ajax({
+
+        type: "GET",
+        dataType: "json",
+        url: '/update-user-preference-status',
+        data: {'status': status, 'banner_id': banner_id},
+        success: function(data){
+            if(data.status==0){
+                 $("#userPref-"+data.banner_id).html("<i class='far fa-square' aria-hidden='true' status='Inactive'></i>"); 
+            }else if(data.status==1){
+                 $("#userPref-"+data.banner_id).html("<i class='fas fa-check-square' aria-hidden='true' status='Active'></i>");
+        }
+    },
+        error:function(resp){
+            console.log(resp);
+            alert("Error");
+
+        }
+
+        });
+  
+});    
 </script>

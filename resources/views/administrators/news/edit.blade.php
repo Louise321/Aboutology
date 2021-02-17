@@ -53,7 +53,7 @@
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label w-100">File input</label> <br>
+                            <label class="form-label w-100">Image Upload</label> <br>
                             <input type="file" name="file_path" value="{{$news->file_path}}">
                         </div>
 

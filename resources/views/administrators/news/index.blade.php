@@ -23,12 +23,14 @@
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>Add News
                             </a>
                         </div>
-                    </div>                        
+                    </div>     
+                      <form  role="filter" style="margin-top: 10; position:relative">
+                                       
                     <div class="input-group">
-                        <input class="form-control mr-2" type="input" placeholder="search.." id="search"/>
+                        <input type="input" class="form-control" placeholder="search.." id="search" style="width:200; position:relative;"/>
                     </div>
-                   
-                    <div class="select-container">
+                      </form>
+                    {{-- <div class="select-container">
                         <select id="category_id">
                           <option>{{\App\Constants\GlobalConstants::ALL}}</option>
                             @foreach ($cat_list as $item)
@@ -36,7 +38,7 @@
                                 </option>
                             @endforeach
                         </select>
-                      </div>
+                    </div> --}}
                   {{--   <!-- Search function -->
                      <!-- <form action="{{ route('news.index') }}" method="GET" role="search">
 
@@ -63,22 +65,27 @@
         </div>
     </section>
  
-
-
-    <div class="col-12 col-xl-12"
-        style="margin-left: auto; margin-right: auto; padding-left: 40px; padding-right: 40px;">
-        <div class="card">
-
-            @if (Session::has('deleted'))
+@if (Session::has('deleted'))
                 <div class="alert alert-success" role="alert">
                     {{ Session::get('deleted') }}
                 </div>
             @endif
+
+    <div class="col-12 col-md-12"
+        style="margin-left: auto; margin-right: auto; padding-left: 40px; padding-right: 40px;">
+        
+
+              
             <div id="news_data">
+             
                 @include('administrators.news.sample.news_page') 
                 <input hidden id="showuntilthissection"/>    
-            </div>            
+               
+  
         </div>
+
+       
+
     </div>
 <!-- NEWS SEARCH -->
 
@@ -125,10 +132,10 @@
           'term':search,
           'category': selectedCategory,
         },
-        url: "{{ route('news.index') }}" + "?page=" + page,
+        url: "{{ route('news.search') }}" + "?page=" + page,
         success:function(data) {
             
-            var input = data;
+            /* var input = data;
 
             var fields = input.split('<div id="news_data">');
           
@@ -136,18 +143,11 @@
             var partB = fields[1];
             
             var field2 = partB.split('<input hidden id="showuntilthissection"/>');
-            var result = field2[0];
-          $('#news_data').html(result);
+            var result = field2[0]; */
+            console.log(data)
+          $('#news_data').html(data);
         }
       });
     }
-
-</script>
-<script>
-
-
-</script>
-<script>
-
 
 </script>

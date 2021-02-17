@@ -52,7 +52,6 @@
         color: #222e3c;
         text-transform: uppercase;
         text-align: left;
-        font-weight: bold;
     }
     
     .z-depth-1,
@@ -269,7 +268,7 @@
     
     .searchTerm {
         width: 100%;
-        border: 3px solid #00B4CC;
+        border: 2px solid black;
         border-right: none;
         padding: 10px;
         height: 40px;
@@ -286,8 +285,8 @@
         width: 50px;
         height: 40px;
         text-align: center;
-        border: 1px solid #00B4CC;
-        background: #00B4CC;
+        border: 1px solid black;
+        background: black;
         color: #fff;
         border-radius: 0 10px 10px 0;
         cursor: pointer;

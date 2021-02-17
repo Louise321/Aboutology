@@ -28,18 +28,20 @@
                                     <h5 class="news-title mb-0">{{ $items->title }}</h5>
                                 </a>
                             </div>
-                            <div class="module">
-                                <p class=" qqwe">{{$items -> description}}</p>
+                            <div class="articledesc ">
+                                <p>{!! html_entity_decode($items->description) !!}</p>
                             </div>
+
                         </div>
                     </div>
                 @endforeach
             @endforeach
+
         </div>
+
+        {!! $news->links('pagination::bootstrap-4') !!}
+
     </div>
-
-      
-
 
 </x-app-layout>
 

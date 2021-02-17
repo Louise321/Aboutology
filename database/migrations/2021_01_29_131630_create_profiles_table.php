@@ -17,8 +17,9 @@ class CreateProfilesTable extends Migration
             $table->increments('id');
             $table->bigInteger('user_id')->unsigned()->index(); 
             $table->string('fullname');  
-            $table->string('short_desc'); 
-            $table->string ('phone')->unique()->nullable();             
+            $table->string('short_desc')->nullable(); 
+            $table->string('profilepic_path');
+            $table->string ('phone')->nullable();             
             $table->date('date_of_birth');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

@@ -50,12 +50,12 @@
                         </div>
 
                         <div class="sidebar2-item  recent">
-                            <h3>Recent Posts</h3>
+                            <h3>Popular Posts</h3>
 
                             @foreach ($data as $latest)
                                 <div class="media">
                                     <div class="pull-left">
-                                        <a href="{{ route('article.detail', $latest->id) }}"><img class="img-recent" src="img/cat.png" alt=""></a>
+                                        <a href="{{ route('article.detail', $latest->id) }}"><img class="img-recent" src="{{ asset('uploads/image/' . $latest->file_path) }}" alt=""></a>
                                     </div>
                                     <div class="media-body">
                                         <h4><a href="{{ route('article.detail', $latest->id) }}">{{ $latest->title }}</a></h4>
@@ -64,24 +64,7 @@
                                 </div>
                             @endforeach
 
-                            {{-- <div class="media">
-                                <div class="pull-left">
-                                    <a href="#"><img class="img-recent" src="img/cat.png" alt=""></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on 07 March 2014</p>
-                                </div>
-                            </div>
-                            <div class="media">
-                                <div class="pull-left">
-                                    <a href="#"><img class="img-recent" src="img/cat.png" alt=""></a>
-                                </div>
-                                <div class="media-body">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet consectetur adipisicing elit,</a></h4>
-                                    <p>posted on 07 March 2014</p>
-                                </div>
-                            </div> --}}
+                          
                         </div>
                     </div>
                 </div>
@@ -98,7 +81,7 @@
                                     <div class="single-blog two-column">
                                         <div class="post-thumb">
                                             <a href="{{ route('article.detail', $articled->id) }}">
-                                                <img src="{{ asset('uploads/image/' . $articled->file_path) }}" class="img-responsive" alt="" style="height: 300"></a>
+                                                <img src="{{ asset('uploads/image/' . $articled->file_path) }}" class="img-responsive" alt="" style="height: 250px; width:100%;"></a>
                                             <div class="post-overlay">
                                             </div>
                                         </div>
@@ -115,35 +98,14 @@
                                             <p>{!! html_entity_decode($articled->description) !!}</p>
                                             </div>
 
+                                            <a href="{{ route('article.detail', $articled->id) }}" class="read-more">View More</a>
+
                                             {{-- <a href="#" class="read-more">View More</a> --}}
                                             <div class="post-bottom overflow">
                                                 <ul class="nav nav-justified post-nav">
-                                                    <li><a href="#"><i class="fas fa-eye"></i>{{ $articled->views }}</a></li>
+                                                    <li><i class="fas fa-eye"></i> {{ $articled->views }}  Views</li>
                                                     
-                                                    <form method="POST" action="/article/{{ $articled->id }}/like">
-                                                        @csrf
-                                                        {{-- <li><a href="{{ $articled->isLikedBy(current_user()) ? 'text-blue' : 'text-gray' }}"> --}}
-                                                        <div class="{{ $articled->isLikedBy(auth()->user()) ? 'text-blue' : 'text-gray' }}">    
-                                                            <li>
-                                                                <button class="fas fa-thumbs-up">{{ $articled->likes ?: 0 }}</button>
-                                                            </li>
-                                                        </div>
 
-                                                    </form>
-
-                                                    <form method="POST" action="/article/{{ $articled->id }}/like">
-                                                        @csrf
-                                                        @method('DELETE')
-
-                                                        {{-- <li><a href="{{ $articled->isDislikedBy(current_user()) ? 'text-blue' : 'text-gray' }}"> --}}
-
-                                                        <div class="{{ $articled->isDislikedBy(auth()->user()) ? 'text-blue' : 'text-gray' }}">    
-                                                            <li>
-                                                                <button class="fas fa-thumbs-down">{{ $articled->dislikes ?: 0 }}</button>
-                                                            </li>
-                                                        </div>
-                                                        
-                                                    </form>
                                                 </ul>
                                             </div>
                                         </div>
@@ -154,9 +116,10 @@
                             @endforeach
                         @endforeach
 
-                        {!! $article->links('pagination::bootstrap-4') !!}
-
                     </div>
+
+                    {!! $article->links('pagination::bootstrap-4') !!}
+
                 </div>
 
             </div>
@@ -166,42 +129,3 @@
     <!--/#blog-->
 
 </x-app-layout>
-
-{{-- <script type="text/javascript">
-    $(document).ready(function() {     
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $('i.glyphicon-thumbs-up, i.glyphicon-thumbs-down').click(function(){    
-            var id = $(this).parents(".panel").data('id');
-            var c = $('#'+this.id+'-bs3').html();
-            var cObjId = this.id;
-            var cObj = $(this);
-
-            $.ajax({
-               type:'POST',
-               url:'/like',
-               data:{id:id},
-               success:function(data){
-                  if(jQuery.isEmptyObject(data.success.attached)){
-                    $('#'+cObjId+'-bs3').html(parseInt(c)-1);
-                    $(cObj).removeClass("like-post");
-                  }else{
-                    $('#'+cObjId+'-bs3').html(parseInt(c)+1);
-                    $(cObj).addClass("like-post");
-                  }
-               }
-            });
-
-        });      
-
-        $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
-            event.preventDefault();
-            $(this).ekkoLightbox();
-        });                                        
-    }); 
-</script> --}}

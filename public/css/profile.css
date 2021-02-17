@@ -572,16 +572,16 @@ body,
 }
 
 .user__profile>.description {
-    margin-left: 8.9em;
+    margin-left: 10.9em;
     margin-top: 15px;
     font-style: italic;
     color: #000202;
-    font-size: 1.3em;
+    font-size: 15px;
     font-family: "varela round", sans-serif;
 }
 
 .user__profile>img.avatar {
-    margin-left: 1em;
+    margin-left: 2em;
     margin-top: 1em;
     height: 8em;
     width: 8em;
@@ -921,4 +921,43 @@ body,
 
 .timelineicon-align {
     margin-top: 12px;
+}
+
+
+/* Blockquote */
+
+blockquote {
+    font-size: 1.4em;
+    width: 60%;
+    margin: 50px auto;
+    font-family: Open Sans;
+    font-style: italic;
+    color: #555555;
+    padding: 1.2em 30px 1.2em 75px;
+    border-left: 8px solid #78C0A8;
+    line-height: 1.6;
+    position: relative;
+    background: #EDEDED;
+}
+
+blockquote::before {
+    font-family: Arial;
+    content: "\201C";
+    color: #78C0A8;
+    font-size: 4em;
+    position: absolute;
+    left: 10px;
+    top: -10px;
+}
+
+blockquote::after {
+    content: '';
+}
+
+blockquote span {
+    display: block;
+    color: #333333;
+    font-style: normal;
+    font-weight: bold;
+    margin-top: 1em;
 }

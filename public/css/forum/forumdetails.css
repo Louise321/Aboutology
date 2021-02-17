@@ -564,7 +564,7 @@ ol {
 
 .related-cont {
     margin: 0 auto;
-    padding: 0 40px;
+    /* padding: 0 40px; */
     max-width: 1200px;
     overflow-y: auto;
 }
@@ -584,11 +584,12 @@ ol {
     border-radius: 4px;
 }
 
-.img-responsive {
+
+/* .img-responsive {
     border-top: 1px dashed #DDDDDD;
     width: 100px;
     height: 100px;
-}
+} */
 
 .content-item {
     /* padding: 30px 0; */
@@ -674,10 +675,14 @@ ol {
 
 #comments .media>.pull-left {
     margin-right: 20px;
+    margin-top: 10px;
 }
 
 #comments .media img {
-    max-width: 100px;
+    /* max-width: 100px; */
+    border-radius: 50%;
+    height: 80px;
+    width: 80px;
 }
 
 #comments .media h4 {
@@ -718,4 +723,10 @@ ol {
     color: #666666;
     font-size: 15px;
     margin-right: 10px;
+}
+
+.inputImage {
+    width: 100%;
+    max-width: 100%;
+    height: auto
 }

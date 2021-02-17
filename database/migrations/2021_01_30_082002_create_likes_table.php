@@ -19,6 +19,8 @@ class CreateLikesTable extends Migration
             $table->integer('article_id')->unsigned()->index();
             // $table->integer('forum_id')->unsigned()->index();
             $table->boolean('liked');
+            // $table->smallInteger('like')->default(0);
+            // $table->smallInteger('dislike')->default(0);
             $table->timestamps();
         
             $table->unique(['user_id', 'article_id']);

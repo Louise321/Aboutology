@@ -30,6 +30,7 @@ class CreateForumsTable extends Migration
             $table->longText('content');
             $table->string('file_path')->nullable();
             $table->integer('views')->default(0);
+            // $table->integer('comment_count');
             // $table->boolean('liked')->nullable();
             $table->timestamps();
         });
@@ -45,7 +46,7 @@ class CreateForumsTable extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
-        
+
         });
     }
 

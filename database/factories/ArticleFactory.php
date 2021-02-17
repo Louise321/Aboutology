@@ -23,12 +23,12 @@ class ArticleFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'title' => $this->faker->word,
-            'description' => $this->faker->text,
-            'views' => 0,
-            'user_id' => User::factory(),
-            'category_id' => Category::factory(),
-        ];
+        // return [
+        //     'title' => $this->faker->word,
+        //     'description' => $this->faker->text,
+        //     'views' => 0,
+        //     'user_id' => User::factory(),
+        //     'category_id' => Category::factory(),
+        // ];
     }
 }

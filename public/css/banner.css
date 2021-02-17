@@ -1,0 +1,18 @@
+.addnew {
+    padding: 0 60 0 40;
+    margin-bottom: 0;
+    right: 0;
+    position: relative;
+}
+
+.button-style a {
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: 500;
+    box-shadow: 0px 4px 15px rgb(0 0 0 / 15%);
+    text-decoration: nonea;
+    color: #00B4CC;
+    padding: 10px 14px;
+    border-radius: .5rem;
+    transition: box-shadow .3s ease;
+}

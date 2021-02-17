@@ -1,9 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\Models\HelpCenter;
+use App\Models\Forum;
+use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+
 
 class HelpCenterController extends Controller
 {
@@ -15,8 +20,21 @@ class HelpCenterController extends Controller
     public function index()
     {
         $hcenter=HelpCenter::all();
+        /* Forum Comment Count */
+       /*  $forumCount = Forum::join('comments', 'forums.id', 'comments.commentable_id')
+        ->select([
+           'forums.*', 
+            DB::raw('(SELECT COUNT(*) FROM comments WHERE comments.commentable_id = forums.id) as comment_count')
+        ])->groupBy('forums.id'); */
 
-        return view('user.helpcenter', compact('hcenter'));
+        //dashboard
+        $tests = Comment::latest()->with('commentable')->count();
+
+        $commentCount = Comment::with(['forum' => function ($q) {
+            $q->withCount('comments');
+        }]);
+
+        return view('user.helpcenter', compact('hcenter','tests','commentCount'));
             
     }
 

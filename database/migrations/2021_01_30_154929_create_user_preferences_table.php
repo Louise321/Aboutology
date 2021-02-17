@@ -31,11 +31,10 @@ class CreateUserPreferencesTable extends Migration
                 ->on('categories')
                 ->onDelete('cascade');
 
-        
         });
     }
 
-    /**
+     /**
      * Reverse the migrations.
      *
      * @return void

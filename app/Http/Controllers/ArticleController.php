@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use DB;
 use Session;
-use Excel;
+use App\Models\Likable;
 use App\Models\Article;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Imports\ArticleImport;
 
 class ArticleController extends Controller
 {
@@ -36,14 +35,12 @@ class ArticleController extends Controller
 
         $data = DB::table('categories')->get();
         
-        $cat = Article::with(['category'])->filterBy(request()->all())->get();
-    
+        $cat = Article::with(['category'])->filterBy(request()->all())->distinct()->get(['category_id']);
         $cat_list = Category::all();
         /*  */
         $selected_id = [];
         $selected_id['category_id'] = $request->category_id;
         /*  */
-
         return view('administrators.article.index', compact('articles', 'data', 'cat','cat_list','selected_id'))
             ->with('i', (request()->input('page',1) - 1) * 5);
     }
@@ -54,12 +51,12 @@ class ArticleController extends Controller
 
         //recent post
 
-        $data = Article::orderBy('id', 'desc')
+        $data = Article::orderBy('views', 'desc')
                     ->withLikes()
                     ->limit(3) 
                     ->get();
 
-        $cat = Article::with(['category'])->filterBy(request()->all())->get();
+        $cat = Article::with(['category'])->filterBy(request()->all())->distinct()->get(['category_id']);
         
         // $data = Article::orderBy('id', 'desc')->limit(3)->get();
 
@@ -80,31 +77,37 @@ class ArticleController extends Controller
         //     Session::push('views', $article->$id);
         // }
 
+        $abc =  Article::where('id', $id)->pluck('category_id')->first();
+        $relatedpost = Article::where('category_id',$abc)
+            ->where('id', '!=', $id)
+            ->take(3)
+            ->get();
+
         $articleKey = 'article_' . $article->id;
 
         if(!Session::has($articleKey)) {
             $article->increment('views');
             Session::put($articleKey, 1);
         }
-
-        return view('user.articledetails', compact('article'));
+      
+        return view('user.articledetails', compact('article','abc', 'relatedpost'));
 
     }
 
     public function category($id)
     {
-        $article = Article::latest()->paginate(6);
+        $articles = Article::latest()->paginate(6);
 
-        $data = Article::orderBy('id', 'desc')
+        $data = Article::orderBy('views', 'desc')
                     ->withLikes()
                     ->limit(3)
                     ->get();
 
-        $cat = Article::with(['category'])->filterBy(request()->all())->get();
+        $cat = Article::with(['category'])->filterBy(request()->all())->distinct()->get(['category_id']);
         
         $testing123 = Article::Where('category_id', $id)->get();
-        
-        return view('user.category', compact('article', 'data', 'cat','testing123'));
+        $cat_id = $id;
+        return view('user.category', compact('articles', 'data', 'cat','testing123','cat_id'));
     }
 
     public function acategory($id)
@@ -120,7 +123,7 @@ class ArticleController extends Controller
                     ->limit(3)
                     ->get();
 
-        $cat = Article::with(['category'])->filterBy(request()->all())->get();
+        $cat = Article::with(['category'])->filterBy(request()->all())->distinct()->get(['category_id']);
         
         $testing123 = Article::Where('category_id', $id)->get();
         
@@ -134,7 +137,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $cat = Article::with(['category'])->filterBy(request()->all())->get();
+        $cat = Article::with(['category'])->filterBy(request()->all())->distinct()->get(['category_id']);
 
         $cat_list = Category::all();
 
@@ -200,8 +203,13 @@ class ArticleController extends Controller
     {
         $article = Article::where('id', $id)->first();
 
+        $abc =  Article::where('id', $id)->pluck('category_id')->first();
+        $relatedpost = Article::where('category_id',$abc)
+            ->where('id', '!=', $id)
+            ->take(3)
+            ->get();
 
-        return view('administrators.article.show', compact('article'));
+        return view('administrators.article.show', compact('article', 'relatedpost'));
     }
 
     /**
@@ -266,58 +274,10 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        // $article = Article::findOrFail($id);
-        // $article->delete();
-
-        //$article = Article::where('id', $id)->firstorfail()->delete();
-
         $article->delete();
 
         return redirect()->route('articles.index')
             ->with('deleted', 'Article deleted successfully');
     }
-
-    // public function destroy($id)
-    // {
-    //     Article::where('id', $id)->delete();
-    //     return back()->with('deleted', 'Article has been deleted successfully!');
-    // }
-
-    // public function importForm()
-    // {
-    //     return view('administrators.article.import-form');
-    // }
-
-    // public function import(Request $request)
-    // {
-    //     Excel::import(new ArticleImport, $request->file);
-    //     return "Record are imported successfully!";
-    // }
-
-    // public function isLikedByMe($id)
-    // {
-    //     $article = Article::findOrFail($id)->first();
-    //     if (Like::whereUserId(Auth::id())->wherePostId($article->id)->exists()){
-    //         return 'true';
-    //     }
-    //     return 'false';
-    // }
-
-    // public function like(Article $article)
-    // {
-    //     $existing_like = Like::withTrashed()->wherePostId($article->id)->whereUserId(Auth::id())->first();
-
-    //     if (is_null($existing_like)) {
-    //         Like::create([
-    //             'article_id' => $article->id,
-    //             'user_id' => Auth::id()
-    //         ]);
-    //     } else {
-    //         if (is_null($existing_like->deleted_at)) {
-    //             $existing_like->delete();
-    //         } else {
-    //             $existing_like->restore();
-    //         }
-    //     }
-    // }
+  
 }

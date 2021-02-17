@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Comment;
 use App\Models\Forum;
 use Illuminate\Http\Request;
@@ -41,6 +42,11 @@ class CommentController extends Controller
         $comment = new Comment;
         $comment->comment = $request->comment_content;
         $comment->user()->associate($request->user());
+        $commentPic = DB::table('comments')
+            ->join('users','comments.user_id','=','users.id')
+            ->join('profiles','users.id','=','profiles.user_id')
+            ->select('comments.*','profiles.profilepic_path as pic')
+            ->get();
         // dd($request);
         $forum = Forum::find($request->forum_id);
         $forum->comments()->save($comment);
@@ -106,6 +112,14 @@ class CommentController extends Controller
         $commentlist = Comment::all;
         // $commentCount = $commentlist->count();
         $commentCount = Comment::whereNotNull('forum_id')->count();
+
+        $commentPic = DB::table('comments')
+            ->join('users','comments.user_id','=','users.id')
+            ->join('profiles','users.id','=','profiles.user_id')
+            ->select('comments.*','profiles.profilepic_path as pic')
+            ->get();
+        
+    
     }
 
     /**

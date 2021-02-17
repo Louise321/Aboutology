@@ -27,16 +27,17 @@
                 </div>
             </div>
         </div>
-    </section>  
+    </section>
         <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-7 col-lg-7">
                         <div class="card" style="width:100%">
                             <div class="user__profile">
-                                 <img class="avatar" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTF_erFD1SeUnxEpvFjzBCCDxLvf-wlh9ZuPMqi02qGnyyBtPWdE-3KoH3s" alt="Ash" />
-                                <div class="username">{{$userName}}</div>
+                                 {{-- <img class="avatar" src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTF_erFD1SeUnxEpvFjzBCCDxLvf-wlh9ZuPMqi02qGnyyBtPWdE-3KoH3s" alt="Ash" /> --}}
+                                  <img class="avatar" src="{{asset('uploads/profilePic/'.$profiledata->profilepic_path)}}"> 
+                                 <div class="username">{{$profiledata -> fullname}}</div>
                                 <!-- <div class="bio"> Senior UI Designer </div> -->
-                                <div class="description"> Short bio: {{$profiledata->short_desc}}</div>
+                                 <div class="description"> Short bio: {{$profiledata->short_desc}}</div>
                             </div>
                         </div>
                     </div>
@@ -52,8 +53,8 @@
                                     <span class="wording">comments</span>    
                                 </div>
                                 <div class="gridIt"> 
-                                    <span class="number"> 1</span><br/>
-                                    <span class="wording">likes</span>  
+                                    <span class="number"> {{$viewcount}}</span><br/>
+                                    <span class="wording">views</span>  
                                 </div>      
                             </div>
                         </div>
@@ -71,14 +72,25 @@
                                     <small class="text-muted">Email address: </small>
                                     <p>{{$userEmail}}</p>
                                     <hr>
-                                    <small class="text-muted">Phone: </small>
-                                    <p>+ 202-555-9191</p>
-                                    <hr>
-                                    <small class="text-muted">Mobile: </small>
-                                    <p>+ 202-555-2828</p>
-                                    <hr>
-                                    <small class="text-muted">Birth Date: </small>
-                                    <p>{{$profiledata -> date_of_birth}}</p>
+
+                                    @if ($profiledata->phone !="")
+                                        <small class="text-muted">Phone: </small>
+                                        <p>{{$profiledata -> phone}}</p>
+                                        <hr>
+                                        <small class="text-muted">Birth Date: </small>
+                                        <p>{{$profiledata -> date_of_birth}}</p>
+                                        <hr>
+                                        <small class="text-muted">Join Date: </small>
+                                        <p>{{$profiledata -> created_at ->format('Y-m-d')}}</p>
+                                    @else
+                                        
+                                        <small class="text-muted">Birth Date: </small>
+                                        <p>{{$profiledata -> date_of_birth}}</p>
+                                        <hr>
+                                        <small class="text-muted">Join Date: </small>
+                                        <p>{{$profiledata -> created_at ->format('Y-m-d')}}</p>
+                                    @endif
+                                   
                                 </div>
                             
                             </div>
@@ -190,7 +202,8 @@
                                                         <i class="timelineicon-align align-middle " data-feather="plus-square"></i>
                                                     </div></div>
                                                     <div class="cbp_tmlabel">
-                                                        <h2>You have created a <a href="{{ route('forum.show', $item->properties['created']) }}">forum </a></h2>           
+                                                        <h2>You have created a <a href="{{ route('forums.show', $item->properties['forum_title']) }}">forum </a></h2>           
+                                                        <p>{{$item -> properties['forum_title']}} </p>  
                                                     </div>
                                                 </li>
                                                 @elseif($item->description == "Commented on forums")
@@ -201,12 +214,12 @@
                                                         <i class="timelineicon-align align-middle " data-feather="message-circle"></i>
                                                     </div></div>
                                                     <div class="cbp_tmlabel">
-                                                    <h2>You have commented on a <a href="{{ route('forum.show', $item->properties['forum_id']) }}">forum</a></h2>           
+                                                    <h2>You have commented on a <a href="{{ route('forums.show', $item->properties['forum_id']) }}">forum</a></h2>           
                                                     <p>{{$item -> properties['commented']}} </p>               
                                                 </div>
                                                 </li>
                                                 @else
-                                                <li>
+                                                {{-- <li>
                                                     <time class="cbp_tmtime" datetime="2017-11-04T18:30"><span class="hidden">25/12/2017</span> <span class="large">Now</span></time>
                                                     <div class="cbp_tmicon">                                                
                                                     <div class="position-relative">
@@ -214,7 +227,7 @@
                                                     </div>                                           
                                                 </div>
                                                     <div class="cbp_tmlabel empty"> <span>No Activity</span> </div>
-                                                </li>
+                                                </li> --}}
                                                 @endif
                                             @endforeach
                                         </ul>

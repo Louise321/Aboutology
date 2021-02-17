@@ -7,13 +7,12 @@
         <x-auth-card>
 
             <x-slot name="logo">
-                {{-- <a href="/"> --}}
-                    <x-application-logo />
-                {{-- </a> --}}
+                <x-application-logo />
             </x-slot>
 
             <div class="mb-4 text-sm text-gray-600" style="text-align:center;padding:35px;">
-            {{ __('Please enter your authentication code to login.') }}
+            {{ __('This is a secure area of the application.
+            Please enter your authentication code to login.') }}
             </div>
 
        
@@ -23,15 +22,17 @@
             <!-- Validation Errors -->
             <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-            <form method="POST" action="{{ url('/twofactor') }}" >
+            <form method="POST" action="{{ route('two-factor.login ') }}" >
                 @csrf
 
 
-                <label>
+                    <label>
                     <!-- Password -->
-                        <span><x-label for="code" :value="__('Code')" /></span>
+                        <span><x-label for="password" :value="__('Password')" /></span>
 
-                        <x-input type="text" name="code" />
+                        <x-input id="code" class="block w-full mt-1"
+                                    type="text"
+                                    name="code" />
                     
                 </label>
 
@@ -39,7 +40,7 @@
                 
                 
                 <x-button>
-                    {{ __('Submit') }}
+                    <a href="dashboard">{{ __('Confirm') }}</a>
                 </x-button>
                 
             </form>

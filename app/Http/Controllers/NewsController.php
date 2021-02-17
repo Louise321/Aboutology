@@ -25,16 +25,7 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         
-        $news = News::where([
-            ['title', '!=', Null],
-            [function ($query) use ($request) {
-                if(($term = $request->term)) {
-                    $query->orWhere('title', 'LIKE', '%'.$term.'%')->get();
-                }
-            }]
-        ])
-
-            ->orderBy("id", "desc")
+        $news = News::orderBy("id", "desc")
             ->paginate(10); 
         
             $cat_list = Category::all();
@@ -44,7 +35,6 @@ class NewsController extends Controller
             /*  */
 
         return view('administrators.news.index',compact('news','cat_list','selected_id'));
-
     }
 
 
@@ -58,7 +48,6 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-                
         if ($request->checkbox_event == "1") {
             // this news is about an event
             $request->validate([
@@ -182,7 +171,7 @@ class NewsController extends Controller
         $order = 'desc';
         $data = News::where('id', '!=' , ($news->id))->orderBy('id', $order)->limit(3)->get();
 
-        return view('user.newsdetails', compact('news','data')); 
+      ;  return view('user.newsdetails', compact('news','data')); 
     }
 
     /**
@@ -367,9 +356,13 @@ class NewsController extends Controller
     public function userNewspage(Request $request)
     {
 /*         $news = News::all()->orderBy('id', 'desc');;
- */        $order = 'desc';
-        $news = News::orderBy('id', $order)->get();
+ */     $order = 'desc';
+        $news = News::orderBy('id', $order)
+            ->paginate(6);
+            
+
         return view('user.news',compact('news'));
+            // ->with('i', (request()->input('page',1) - 1) * 5);
     }
 
     /**

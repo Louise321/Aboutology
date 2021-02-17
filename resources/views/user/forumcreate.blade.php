@@ -36,7 +36,7 @@
 
 <script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
 
-<x-admin-layout>
+<x-app-layout>
 
     <div class="row">
         <div class="col-12 col-xl-10"
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label w-100">File input</label> <br>
+                            <label class="form-label w-100">Image Upload</label> <br>
                             <input type="file" name="file_path">
                         </div>
 
@@ -108,7 +108,7 @@
             </div>
         </div>
 
-</x-admin-layout>
+</x-app-layout>
 
 <script>
 

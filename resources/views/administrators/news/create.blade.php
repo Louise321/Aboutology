@@ -48,7 +48,7 @@
 
 
                         <div class="form-group">
-                            <label class="form-label w-100">File input</label> <br>
+                            <label class="form-label w-100">Image Upload</label> <br>
                             <input type="file" name="file_path">
                         </div>
                         <hr style=" border-top: 2px solid rgb(119, 119, 119);margin-top:35px;">

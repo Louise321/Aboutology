@@ -97,6 +97,8 @@ button {
     width: 260px;
     height: 100%;
     padding-top: 360px;
+    background-image: url('/img/signin.jpg');
+    background-size: cover;
 }
 
 .img:before {
@@ -106,7 +108,7 @@ button {
     top: 0;
     width: 900px;
     height: 100%;
-    background-image: url('https://images.wallpapersden.com/image/wxl-malaysia-petronas-twin-towers-sky_17120.jpg');
+    background-image: url('/img/signin.jpg');
     background-size: cover;
     transition: transform 1.2s ease-in-out;
 }

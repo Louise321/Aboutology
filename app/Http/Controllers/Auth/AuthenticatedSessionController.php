@@ -15,6 +15,12 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    protected function authenticated(Request $request, $user){
+
+        $user->generateTwoFactorCode();
+        $user->notify(new TwoFactorCode());
+    }
+
     public function create()
     {
         return view('auth.login');
@@ -32,7 +38,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::DASHBOARD);
     }
 
     /**

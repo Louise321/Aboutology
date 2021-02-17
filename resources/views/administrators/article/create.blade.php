@@ -53,7 +53,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label w-100">File input</label> <br>
+                            <label class="form-label w-100">Image Upload</label> <br>
                             <input type="file" name="file_path">
                         </div>
 
@@ -86,18 +86,17 @@
 </x-admin-layout>
 
 <script>
-
     ClassicEditor
-        
-        .create(document.querySelector('#description'), {
-                cloudServices: {
-                    tokenUrl: 'https://78158.cke-cs.com/token/dev/1012ba6a1b79ef5b8f4f50ddb21fabbf25b5e464ec32842e6afc48af86a2',
-                    uploadUrl: 'https://78158.cke-cs.com/easyimage/upload/'
-                }
-            })
 
-            .catch(error => {
-                console.error(error);
-            });
+        .create(document.querySelector('#description'), {
+            cloudServices: {
+                tokenUrl: 'https://78158.cke-cs.com/token/dev/1012ba6a1b79ef5b8f4f50ddb21fabbf25b5e464ec32842e6afc48af86a2',
+                uploadUrl: 'https://78158.cke-cs.com/easyimage/upload/'
+            }
+        })
+
+        .catch(error => {
+            console.error(error);
+        });
 
 </script>

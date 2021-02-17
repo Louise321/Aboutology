@@ -25,8 +25,9 @@
                
                 <div class="post-bottom overflow"></div>
                     <div v-html="articleText" class="article-cont">
-                        {{ $news->description }}
+                        {!! html_entity_decode($news->description) !!}
                     </div>
+
                     @if ($news->news_type == 'Events' || $news->news_type == 'events')
                         <div class="rela-block article-footnote">
 

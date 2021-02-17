@@ -1,4 +1,4 @@
-
+ <div class="card">
   <table class="table table-striped" > 
       <thead>
           <tr>
@@ -17,7 +17,7 @@
                   <td>{{ $newsdata->id }}</td>
                   <td><a href="/news/{{ $newsdata->id }}">{{ $newsdata->title }}</a></td>
                   <td>{{$newsdata->news_type}}</td>
-                  <td class="descrp">{{ $newsdata->description }}</td>
+                  <td class="descrp">{!! html_entity_decode($newsdata->description) !!}</td> 
                   <td class="d-none d-md-table-cell">{{ $newsdata->created_at }}</td>
                   <td class="d-none d-md-table-cell">{{ $newsdata->updated_at }}</td>
                   <td class="table-action">
@@ -41,4 +41,6 @@
           @endforeach 
       </tbody>
   </table>  
-              
+
+  </div>   
+  {!! $news->links('pagination::bootstrap-4') !!}  
